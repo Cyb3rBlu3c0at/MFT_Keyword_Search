@@ -40,7 +40,7 @@ $keywordList = New-Object System.Collections.ArrayList
 Get-Content $KeywordFilePath | ForEach-Object { $keywordList.Add($_) | Out-Null }
 
 Write-Host "Importing MFT CSV File, please wait..."
-$csv = Import-Csv $MFTFilePath
+$csv = Import-Csv $MFTFilePath | Select-Object "FileName"
 
 $totalRows = $csv.Count
 $currentRow = 0
@@ -50,7 +50,7 @@ Write-Progress -Activity "Searching for matches" -Status "Processing row $curren
 
 foreach ($row in $csv) {
     foreach ($keyword in $keywordList) {
-        if ($row.FileName -ieq $keyword) {
+        if ($row -ieq $keyword) {
             $row | Export-Csv -Path "$env:UserProfile\Desktop\Results.csv" -Append -Force -NoTypeInformation
             break
         }
