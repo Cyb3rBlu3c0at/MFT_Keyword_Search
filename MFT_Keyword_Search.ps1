@@ -50,7 +50,7 @@ Write-Progress -Activity "Searching for matches" -Status "Processing row $curren
 
 foreach ($row in $csv) {
     foreach ($keyword in $keywordList) {
-        if ($row -ieq $keyword) {
+        if ($row -match $keyword) {
             $row | Export-Csv -Path "$env:UserProfile\Desktop\Results.csv" -Append -Force -NoTypeInformation
             break
         }
